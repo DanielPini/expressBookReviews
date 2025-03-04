@@ -14,8 +14,15 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: true,
     saveUninitialized: true,
+    cookie: {
+      secure: false,
+      httpOnly: true,
+      maxAge: 1200000,
+    },
   })
 );
+
+app.use("/customer", customer_routes);
 
 app.use("/customer/auth/*", function auth(req, res, next) {
   let user = req.params.username;
@@ -48,8 +55,6 @@ app.use("/customer/auth/*", function auth(req, res, next) {
 });
 
 const PORT = 5500;
-
-app.use("/customer", customer_routes);
 
 app.use("/", genl_routes);
 
